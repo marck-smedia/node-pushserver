@@ -1,9 +1,5 @@
 # Push Server
 
-## Eliocity fix and changes
-
-    - When a push user is registered we remove all the previous associations with this token.
-
 Push Server is a cross-plateform push server based on [node-apn](https://github.com/argon/node-apn) and [node-gcm](https://github.com/ToothlessGear/node-gcm). Push Server currently supports iOS (APN) and android (GCM) platforms. It uses mongoDB to store the push tokens. 
 Note that this server is not meant to be used as a front facing server as there's no particular security implemented.
 
