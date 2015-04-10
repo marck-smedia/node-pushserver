@@ -1,0 +1,21 @@
+{
+  "appenders": [
+    {
+      "category": ["pushserver", "Web"],
+      "type": "console"
+    },
+    {
+      "type": "dateFile",
+      "filename": "logs/app.log",
+      "pattern": "-yyyy-MM-dd"
+    }
+  ],
+  "levels": {
+    "pushserver": "DEBUG",
+    "APNPusher": "DEBUG",
+    "GCMPusher": "DEBUG",
+    "PushAssociations": "DEBUG",
+    "PushController": "DEBUG",
+    "Web": "DEBUG"
+  }
+}

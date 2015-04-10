@@ -8,12 +8,13 @@ var config = require('../lib/Config'),
   program = require('commander'),
   fs = require('fs'),
   path = require('path'),
-  _ = require('lodash');
+  _ = require('lodash'),
+  logger = config.log4js.getLogger('pushserver');
 
-function collect(val, memo) {
+function parseOverrideOption(val, memo) {
   var m = /^[^=]+=[^=]+$/.exec(val);
   if (!m) {
-    console.log('Incorrect value "' + val + '": override option should be of the form key=value or key.subKey=value. If the value begins with process.env, it is evaluated.');
+    logger.error('Incorrect value "' + val + '": override option should be of the form key=value or key.subKey=value. If the value begins with process.env, it is evaluated.');
   } else {
     memo.push(val);
   }
@@ -22,18 +23,18 @@ function collect(val, memo) {
 
 program.version(pack.version)
   .option('-c, --config <configPath>', 'Path to config file')
-  .option('-o, --override [overrideValue]', 'Overrides a config value. [overrideValue] should be of the form key=value or key.subKey=value. If the value begins with process.env, it is evaluated.', collect, [])
+  .option('-o, --override [overrideValue]', 'Overrides a config value. [overrideValue] should be of the form key=value or key.subKey=value. If the value begins with process.env, it is evaluated.', parseOverrideOption, [])
   .parse(process.argv);
 
 var configPath = program.config;
 if (configPath) {
   configPath = configPath.indexOf('/') === 0 ? configPath : path.join(process.cwd(), configPath);
   if (!fs.existsSync(configPath)) {
-    console.log('The configuration file doesn\'t exist.');
+    logger.error('The configuration file doesn\'t exist.');
     return program.outputHelp();
   }
 } else {
-  console.log('You must provide a configuration file.');
+  logger.error('You must provide a configuration file.');
   return program.outputHelp();
 }
 
