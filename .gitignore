@@ -2,6 +2,7 @@
 ####################
 config.json
 certificates
+database.sqlite
 
 # Node specific #
 #################

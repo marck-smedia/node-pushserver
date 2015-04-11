@@ -1,6 +1,7 @@
 # Push Server
 
-Push Server is a cross-plateform push server based on [node-apn](https://github.com/argon/node-apn) and [node-gcm](https://github.com/ToothlessGear/node-gcm). Push Server currently supports iOS (APN) and android (GCM) platforms. It uses mongoDB to store the push tokens. 
+Push Server is a cross-platform push server based on [node-apn](https://github.com/argon/node-apn) and [node-gcm](https://github.com/ToothlessGear/node-gcm).
+Push Server currently supports iOS (APN) and android (GCM) platforms. It uses sqlite to store the push tokens. 
 Note that this server is not meant to be used as a front facing server as there's no particular security implemented.
 
 [![NPM](https://nodei.co/npm/node-pushserver.png?downloads=true&stars=true)](https://nodei.co/npm/node-pushserver/)
@@ -9,10 +10,7 @@ Note that this server is not meant to be used as a front facing server as there'
 
 ### 1 - Database
 
-node-pushserver uses mongodb to store the user / token associations. So you need to have a Mongo database setup beforehand
-
-See MongoDB ([MongoDB Download page](http://www.mongodb.org/downloads)).
-
+node-pushserver uses sqlite to store the user / token associations.
 
 ### 2 - Install node-pushserver
 + From npm directly:
@@ -34,11 +32,11 @@ $ npm install -g
 If you checked out this project from github, you can find a configuration file example named 'example.config.json'.
 
 
-```js
+```json
 {
-	"webPort": 8000,
+    "webPort": 8000,
 
-    "mongodbUrl": "mongodb://username:password@localhost/database",
+    "sqlitePath": "./database.sqlite",
 
     "gcm": {
         "apiKey": "YOUR_API_KEY_HERE"
@@ -64,7 +62,7 @@ If you checked out this project from github, you can find a configuration file e
 
 + Checkout [GCM documentation](http://developer.android.com/guide/google/gcm/gs.html) to get your API key.
 
-+  Read [Apple's Notification guide](https://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Introduction.html) to know how to get your certificates for APN.
++ Read [Apple's Notification guide](https://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Introduction.html) to know how to get your certificates for APN.
 
 + Please refer to node-apn's [documentation](https://github.com/argon/node-apn) to see all the available parameters and find how to convert your certificates into the expected format. 
 
@@ -83,10 +81,10 @@ $ pushserver -c /path/to/config.json
 You can override your configuration with the "-o" or "--override" option by providing a key=value option.
 The key can be of the form key.subKey.
 If the value begins with process.env, it is evaluated.
-For example, if your mongodbUrl comes from an environment variable:
+For example, if your sqlitePath comes from an environment variable:
 
 ```shell
-$ pushserver -c /path/to/config.json -o mongodbUrl=process.env.MY_ENV_VAR
+$ pushserver -c /path/to/config.json -o sqlitePath=process.env.MY_ENV_VAR
 ```
 
 If you want to set you GCM API key via the command line:
@@ -129,7 +127,7 @@ http://domain:port/send (POST)
 }
 ```
 
-+ "users" is optionnal, but must be an array if set. If not defined, the push message will be sent to every user (filtered by target).
++ "users" is optional, but must be an array if set. If not defined, the push message will be sent to every user (filtered by target).
 + You can send push messages to Android or iOS devices, or both, by using the "android" and "ios" fields with appropriate options. See GCM and APN documentation to find the available options. 
 
 #### Send push notifications
@@ -174,7 +172,7 @@ http://domain:port/subscribe (POST)
 ```
 + The content-type must be 'application/json'.
 + Format:
-```js
+```json
 {
   "user":"user1",
   "type":"android",
@@ -183,7 +181,7 @@ http://domain:port/subscribe (POST)
 ```
 + All field are required
 + "type" can be either "android" or "ios"
-+ A user can be linked to several devices and a device can be linked to serveral users.
++ A user can be linked to several devices and a device can be linked to several users.
 
 #### Unsubscribe
 ```
@@ -191,13 +189,13 @@ http://domain:port/unsubscribe (POST)
 ```
 + The content-type must be 'application/json'.
 + Format:
-```js
+```json
 {
   "token":"CAFEBABE"
 }
 ```
 or
-```js
+```json
 {
   "user":"user1"
 }
@@ -210,7 +208,7 @@ or
 http://domain:port/users (GET)
 ```
 + Response format: 
-```js
+```json
 {
     "users": [
         "vilem"
@@ -224,7 +222,7 @@ http://domain:port/users/{user}/associations (GET)
 ```
 + Response format
 
-```js
+```json
 {
     "associations": [
         {
@@ -242,9 +240,10 @@ http://domain:port/users/{user}/associations (GET)
   * [node-apn](https://github.com/argon/node-apn)
   * [node-gcm](https://github.com/ToothlessGear/node-gcm)
   * [express](https://github.com/visionmedia/express)
-  * [mongoose](https://github.com/LearnBoost/mongoose)
+  * [sqlite3](https://github.com/mapbox/node-sqlite3)
   * [lodash](https://github.com/bestiejs/lodash.git )
   * [commander](https://github.com/visionmedia/commander.js)
+  * [log4js](https://github.com/nomiddlename/log4js-node)
 
 ## Tags
 [node-pushserver tags](https://github.com/Smile-SA/node-pushserver/tags).
