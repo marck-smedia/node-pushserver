@@ -1,0 +1,43 @@
+<h2>Filters</h2>
+<form class="form-inline">
+    <select class="form-control" ng-model="filter.type">
+        <option value="">All devices</option>
+        <option value="ios">iOS</option>
+        <option value="android">Android</option>
+    </select>
+    <input class="form-control" placeholder="User name" ng-model="filter.user"/>
+    <input class="form-control" placeholder="Token" ng-model="filter.token"/>
+</form>
+
+<h2>Users</h2>
+<ul class="users">
+    <li class="user {{user.type}}"
+        ng-repeat="user in users.users | filter:{user: filter.user, type: filter.type, token: filter.token}">
+        <span class="user">{{user.user}}</span>
+        <span class="token">{{user.token}}</span>
+        <span class="delete">
+            <button class="btn btn-danger" ng-click="deleteUser()">Delete</button>
+        </span>
+    </li>
+</ul>
+
+<h2>Add a user</h2>
+
+<form class="form-inline" name="addUserForm">
+    <div class="form-group">
+        <select class="form-control" ng-model="add.type" required>
+            <option value="">Device type</option>
+            <option value="ios">iOS</option>
+            <option value="android">Android</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <input id="addUser" class="form-control" placeholder="User name" ng-model="add.user" required/>
+    </div>
+    <div class="form-group">
+        <input id="addToken" class="form-control" placeholder="Token" ng-model="add.token" required/>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-danger" ng-click="addUser()" ng-disabled="addUserForm.$invalid">Add</button>
+    </div>
+</form>

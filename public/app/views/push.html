@@ -1,0 +1,76 @@
+<h2>Recipient(s):</h2>
+<label class="col-md-4 control-label" for="users">Users:</label>
+<select id="users" multiple="multiple" ng-model="users">
+    <option value="">All</option>
+    <option ng-repeat="user in allUsers.users" value="{{user}}">{{user}}</option>
+</select>
+
+<div class="row push">
+    <div class="col-md-6">
+        <h2>Android</h2>
+
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="androidMessage">Message:</label>
+
+                <div class="col-md-8">
+                    <input id="androidMessage" class="form-control" ng-model="android.message"
+                           ng-disabled="!android.jsonOK"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="androidCollapseKey">Collapse key:</label>
+
+                <div class="col-md-8">
+                    <input id="androidCollapseKey" class="form-control" ng-model="android.collapseKey"
+                           ng-disabled="!android.jsonOK"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="androidPayload">Payload:</label>
+
+                <div class="col-md-12">
+                    <textarea id="androidPayload" class="form-control" ng-model="android.payload" rows="10"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-6">
+        <h2>iOS</h2>
+
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="iosBadge">Badge:</label>
+
+                <div class="col-md-8">
+                    <input id="iosBadge" class="form-control" ng-model="ios.badge" type="number"
+                           ng-disabled="!ios.jsonOK"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="iosAlert">Alert:</label>
+
+                <div class="col-md-8">
+                    <input id="iosAlert" class="form-control" ng-model="ios.alert" ng-disabled="!ios.jsonOK"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="iosSound">Sound:</label>
+
+                <div class="col-md-8">
+                    <input id="iosSound" class="form-control" ng-model="ios.sound" ng-disabled="!ios.jsonOK"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="iosPayload">Payload:</label>
+
+                <div class="col-md-12">
+                    <textarea id="iosPayload" class="form-control" ng-model="ios.payload" rows="10"
+                              cols="30"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <button class="btn btn-danger col-md-12" ng-click="push()" ng-disabled="!android.jsonOK || !ios.jsonOK">Send!</button>
+</div>
