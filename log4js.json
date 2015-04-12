@@ -6,7 +6,7 @@
     },
     {
       "type": "dateFile",
-      "filename": "logs/app.log",
+      "filename": "app.log",
       "pattern": "-yyyy-MM-dd"
     }
   ],

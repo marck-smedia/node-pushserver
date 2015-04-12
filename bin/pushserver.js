@@ -37,24 +37,6 @@ if (configPath) {
   return program.outputHelp();
 }
 
-var overrideValues = {};
-_.forEach(program.override, function (valueParam) {
-  var array = valueParam.split('=');
-  var key = array[0];
-  var value = array[1];
+config.initialize(configPath, program.override);
 
-  var configElement = overrideValues;
-  var keyPath = key.split('.');
-  for (var i = 0; i < keyPath.length - 1; i++) {
-    var pathElement = keyPath[i];
-    configElement[pathElement] = configElement[pathElement] || {};
-    configElement = configElement[pathElement];
-  }
-  var k = keyPath[keyPath.length - 1];
-  configElement[k] = value;
-});
-
-config.initialize(configPath, overrideValues);
-
-var web = require('../lib/Web');
-web.start();
+require('../lib/Web').start();
