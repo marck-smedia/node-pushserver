@@ -38,6 +38,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
+    "prepublish": "npm install -g bower grunt-cli && bower install && grunt",
     "test": "grunt test"
   }
 }

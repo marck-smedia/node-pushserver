@@ -23,6 +23,7 @@
   },
   "main": "./lib/PushController.js",
   "scripts": {
+    "preinstall": "cd ./public/ && npm install",
     "start": "node ./bin/pushserver.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
