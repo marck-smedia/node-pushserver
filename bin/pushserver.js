@@ -3,7 +3,6 @@
 'use strict';
 
 var config = require('../lib/Config'),
-  web = require('../lib/Web'),
   pack = require('../package'),
   program = require('commander'),
   fs = require('fs'),
@@ -56,4 +55,6 @@ _.forEach(program.override, function (valueParam) {
 });
 
 config.initialize(configPath, overrideValues);
+
+var web = require('../lib/Web');
 web.start();
