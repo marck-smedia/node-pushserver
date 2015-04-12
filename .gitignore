@@ -4,6 +4,13 @@ config.json
 certificates
 database.sqlite
 
+# Web project specific #
+########################
+dist
+.tmp
+.sass-cache
+bower_components
+
 # Node specific #
 #################
 npm-debug.log
