@@ -77,7 +77,7 @@ module.exports = function (grunt) {
           {
             context: ['/users', '/usersComplete', '/subscribe', '/unsubscribe', '/send'],
             host: 'localhost',
-            port: require('../config.json').webPort || 8000,
+            port: 8000,
             https: false,
             changeOrigin: false,
             xforward: false
