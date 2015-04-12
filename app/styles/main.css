@@ -1,3 +1,18 @@
+h2.android,
+h2.ios {
+  background: no-repeat 0 50%;
+  background-size: 1em;
+  padding-left: 1em;
+}
+
+h2.android {
+  background-image: url('/images/android.svg');
+}
+
+h2.ios {
+  background-image: url('/images/ios.svg');
+}
+
 ul.users {
   padding: 0;
 }
@@ -44,11 +59,13 @@ ul.users li.user span.delete {
 }
 
 ul.users li.user span.user {
-  padding: 0 10px 0 35px;
+  padding: 0 10px 0 2.2em;
 }
+
 ul.users li.user span.token {
   padding: 0 10px;
 }
+
 ul.users li.user span.delete {
 }
 

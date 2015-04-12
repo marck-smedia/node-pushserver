@@ -11,7 +11,9 @@
 angular
   .module('nodePushserverWebApp', [
     'ngResource',
-    'ngRoute'
+    'ngRoute',
+    'ngAnimate',
+    'toaster'
   ])
   .config(function ($routeProvider) {
     $routeProvider

@@ -8,7 +8,7 @@
  * Controller of the nodePushserverWebApp
  */
 angular.module('nodePushserverWebApp')
-  .controller('PushCtrl', function ($scope, $http, $resource) {
+  .controller('PushCtrl', function ($scope, $window, $http, $resource, toaster) {
     $scope.allUsers = $resource('/users').get();
 
     $scope.android = {
@@ -31,7 +31,7 @@ angular.module('nodePushserverWebApp')
           payload = JSON.parse($scope.android.payload);
         }
       } catch (e) {
-        console.error('Couldn\'t update payload because of JSON parse error: ' + e);
+        toaster.pop('error', 'Payload JSON parse error', 'Some custom fields may have been lost...');
       }
 
       if (!payload.data) {
@@ -73,7 +73,7 @@ angular.module('nodePushserverWebApp')
           payload = JSON.parse($scope.ios.payload);
         }
       } catch (e) {
-        console.error('Couldn\'t update payload because of JSON parse error: ' + e);
+        toaster.pop('error', 'Payload JSON parse error', 'Some custom fields may have been lost...');
       }
 
       payload.badge = badge;
@@ -98,17 +98,26 @@ angular.module('nodePushserverWebApp')
     });
 
     $scope.push = function () {
-      var payload = {};
-      if ($scope.users) {
-        payload.users = $scope.users;
-      }
-      try {
-        payload.android = JSON.parse($scope.android.payload);
-        payload.ios = JSON.parse($scope.ios.payload);
+      if ($window.confirm('Confirm push?')) {
+        var payload = {};
+        if ($scope.users && $scope.users.length > 0 && $scope.users.indexOf('') === -1) {
+          payload.users = $scope.users;
+        }
+        try {
+          payload.android = JSON.parse($scope.android.payload);
+          payload.ios = JSON.parse($scope.ios.payload);
 
-        $http.post('/send', payload);
-      } catch (e) {
-        console.error('Couldn\'t trigger the push because of JSON parse error: ' + e);
+          $http.post('/send', payload)
+            .success(function () {
+              var nbUsers = payload.users ? payload.users.length : 'all';
+              toaster.pop('success', 'Notification sent to ' + nbUsers + ' users');
+            })
+            .error(function () {
+              toaster.pop('error', 'Error while sending the notification');
+            });
+        } catch (e) {
+          toaster.pop('error', 'Couldn\'t trigger the push because of JSON parse error');
+        }
       }
     };
   });
