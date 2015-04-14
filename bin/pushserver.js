@@ -27,7 +27,7 @@ program.version(pack.version)
 
 var configPath = program.config;
 if (configPath) {
-  configPath = configPath.indexOf('/') === 0 ? configPath : path.join(process.cwd(), configPath);
+  configPath = path.isAbsolute(configPath) ? configPath : path.join(process.cwd(), configPath);
   if (!fs.existsSync(configPath)) {
     logger.error('The configuration file doesn\'t exist.');
     return program.outputHelp();
