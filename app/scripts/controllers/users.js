@@ -8,7 +8,7 @@
  * Controller of the nodePushserverWebApp
  */
 angular.module('nodePushserverWebApp')
-  .controller('UsersCtrl', function ($scope, $window, $http, $resource, toaster) {
+  .controller('UsersCtrl', function ($scope, $window, $http, toaster) {
     var refreshUsers = function () {
       $http.get('/usersComplete').success(function (users) {
         $scope.users = users;
