@@ -75,7 +75,7 @@ module.exports = function (grunt) {
         // Proxy to the server which is on an other port
         proxies: [
           {
-            context: ['/users', '/usersComplete', '/subscribe', '/unsubscribe', '/send'],
+            context: ['/users', '/usersComplete', '/subscribe', '/unsubscribe', '/send', '/logs'],
             host: 'localhost',
             port: 8000,
             https: false,
