@@ -1,0 +1,4 @@
+{
+  "mongodbUrl": "mongodb://localhost/database",
+  "sqliteFile": "/tmp/database.sqlite"
+}
