@@ -1,5 +1,6 @@
 h2.android,
-h2.ios {
+h2.ios,
+h2.wp {
   background: no-repeat 0 50%;
   background-size: 1em;
   padding-left: 1em;
@@ -11,6 +12,10 @@ h2.android {
 
 h2.ios {
   background-image: url('/images/ios.svg');
+}
+
+h2.wp {
+  background-image: url('/images/wp.svg');
 }
 
 ul.users {
@@ -36,6 +41,10 @@ li.user.ios span.user {
 
 li.user.android span.user {
   background-image: url('/images/android.svg');
+}
+
+li.user.wp span.user {
+  background-image: url('/images/wp.svg');
 }
 
 li.user span.token {
@@ -115,10 +124,6 @@ body {
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
-
   /* Remove the padding we set earlier */
   .header,
   .marketing,

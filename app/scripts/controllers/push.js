@@ -19,6 +19,10 @@ angular.module('nodePushserverWebApp')
       'alert': 'Your message',
       'sound': 'default'
     };
+    $scope.wp = {
+      'bold': 'Title',
+      'normal': 'Your message'
+    };
 
     // Synchronize from inputs to textarea (payload) for Android
     $scope.$watchGroup(['android.message', 'android.collapseKey'], function (newValues) {
@@ -97,6 +101,39 @@ angular.module('nodePushserverWebApp')
       }
     });
 
+    // Synchronize from inputs to textarea (payload) for WP
+    $scope.$watchGroup(['wp.bold', 'wp.normal'], function (newValues) {
+      var bold = newValues[0];
+      var normal = newValues[1];
+
+      var payload = {};
+      try {
+        if ($scope.wp.payload) {
+          payload = JSON.parse($scope.wp.payload);
+        }
+      } catch (e) {
+        toaster.pop('error', 'Payload JSON parse error', 'Some custom fields may have been lost...');
+      }
+
+      payload.bold = bold;
+      payload.normal = normal;
+
+      $scope.wp.payload = JSON.stringify(payload, null, 2);
+    });
+
+    // Synchronize from textarea (payload) to inputs for WP
+    $scope.$watch('wp.payload', function (newWPPayload) {
+      try {
+        var payload = JSON.parse(newWPPayload);
+        $scope.wp.bold = payload.bold;
+        $scope.wp.normal = payload.normal;
+        $scope.wp.jsonOK = true;
+      } catch (e) {
+        // The user hasn't finished to edit the payload (at least we expect!)
+        $scope.wp.jsonOK = false;
+      }
+    });
+
     $scope.push = function () {
       if ($window.confirm('Confirm push?')) {
         var payload = {};
@@ -106,6 +143,7 @@ angular.module('nodePushserverWebApp')
         try {
           payload.android = JSON.parse($scope.android.payload);
           payload.ios = JSON.parse($scope.ios.payload);
+          payload.wp = JSON.parse($scope.wp.payload);
 
           $http.post('/send', payload)
             .success(function () {

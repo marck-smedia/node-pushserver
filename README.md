@@ -4,8 +4,6 @@ Push Server is a cross-platform push server based on [node-apn](https://github.c
 Push Server currently supports iOS (APN) and android (GCM) platforms. It uses sqlite to store the push tokens. 
 Note that this server is not meant to be used as a front facing server as there's no particular security implemented.
 
-This is a fork of the original node-pushserver by 'Smile-SA' (https://github.com/Smile-SA/node-pushserver). I implemented a basic security-key system to protect the system from unauthorized use.
-
 [![NPM](https://nodei.co/npm/node-pushserver.png?downloads=true&stars=true)](https://nodei.co/npm/node-pushserver/)
 
 ## Getting started
@@ -39,8 +37,6 @@ If you checked out this project from github, you can find a configuration file e
     "webPort": 8000,
 
     "sqlitePath": "./database.sqlite",
-
-    "securitykey": "YOUR_CUSTOM_SECURITY_KEY",
 
     "gcm": {
         "apiKey": "YOUR_API_KEY_HERE"
@@ -127,8 +123,7 @@ http://domain:port/send (POST)
     "badge": 0,
     "alert": "Your message here",
     "sound": "soundName"
-  },
-  "securitykey": "YOUR_CUSTOM_SECURITY_KEY"
+  }
 }
 ```
 
@@ -166,8 +161,7 @@ http://domain:port/sendBatch (POST)
         }
       }
     }
-  ],
-  "securitykey": "YOUR_CUSTOM_SECURITY_KEY"
+  ]
 }
 ```
 
@@ -182,8 +176,7 @@ http://domain:port/subscribe (POST)
 {
   "user":"user1",
   "type":"android",
-  "token":"CAFEBABE",
-  "securitykey": "YOUR_CUSTOM_SECURITY_KEY"
+  "token":"CAFEBABE"
 }
 ```
 + All field are required
@@ -198,15 +191,13 @@ http://domain:port/unsubscribe (POST)
 + Format:
 ```json
 {
-  "token":"CAFEBABE",
-  "securitykey": "YOUR_CUSTOM_SECURITY_KEY"
+  "token":"CAFEBABE"
 }
 ```
 or
 ```json
 {
-  "user":"user1",
-  "securitykey": "YOUR_CUSTOM_SECURITY_KEY"
+  "user":"user1"
 }
 ```
 
@@ -248,6 +239,7 @@ http://domain:port/users/{user}/associations (GET)
 
   * [node-apn](https://github.com/argon/node-apn)
   * [node-gcm](https://github.com/ToothlessGear/node-gcm)
+  * [mpns](https://github.com/jeffwilcox/mpns)
   * [express](https://github.com/visionmedia/express)
   * [sqlite3](https://github.com/mapbox/node-sqlite3)
   * [lodash](https://github.com/bestiejs/lodash.git )
