@@ -5,16 +5,14 @@
 config.json
 certificates
 database.sqlite
+node-pushserver*.tgz
 
 # Web project specific #
 ########################
 .tmp
+app
 bower_components
-
-# Node specific #
-#################
-npm-debug.log
-node_modules
+test
 
 # IDE Specific #
 ################

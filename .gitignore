@@ -3,6 +3,7 @@
 config.json
 certificates
 database.sqlite
+node-pushserver*.tgz
 
 # Web project specific #
 ########################
