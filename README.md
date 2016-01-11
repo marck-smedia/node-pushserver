@@ -218,7 +218,7 @@ http://domain:port/users (GET)
 
 #### List user's associations
 ```
-http://domain:port/users/{user}/associations (GET)
+http://domain:port/users/{user} (GET)
 ```
 + Response format
 
