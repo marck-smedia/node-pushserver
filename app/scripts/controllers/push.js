@@ -8,7 +8,7 @@
  * Controller of the nodePushserverWebApp
  */
 angular.module('nodePushserverWebApp')
-  .controller('PushCtrl', function ($scope, $window, $http, $resource, toaster) {
+  .controller('PushCtrl', function($scope, $window, $http, $resource, toaster) {
     $scope.allUsers = $resource('/users').get();
 
     $scope.android = {
@@ -25,7 +25,7 @@ angular.module('nodePushserverWebApp')
     };
 
     // Synchronize from inputs to textarea (payload) for Android
-    $scope.$watchGroup(['android.message', 'android.collapseKey'], function (newValues) {
+    $scope.$watchGroup(['android.message', 'android.collapseKey'], function(newValues) {
       var message = newValues[0];
       var collapseKey = newValues[1];
 
@@ -53,7 +53,7 @@ angular.module('nodePushserverWebApp')
     });
 
     // Synchronize from textarea (payload) to inputs for Android
-    $scope.$watch('android.payload', function (newAndroidPayload) {
+    $scope.$watch('android.payload', function(newAndroidPayload) {
       try {
         var payload = JSON.parse(newAndroidPayload);
         $scope.android.message = payload.data.message;
@@ -66,7 +66,7 @@ angular.module('nodePushserverWebApp')
     });
 
     // Synchronize from inputs to textarea (payload) for iOS
-    $scope.$watchGroup(['ios.badge', 'ios.alert', 'ios.sound'], function (newValues) {
+    $scope.$watchGroup(['ios.badge', 'ios.alert', 'ios.sound'], function(newValues) {
       var badge = parseInt(newValues[0]);
       var alert = newValues[1];
       var sound = newValues[2];
@@ -88,7 +88,7 @@ angular.module('nodePushserverWebApp')
     });
 
     // Synchronize from textarea (payload) to inputs for iOS
-    $scope.$watch('ios.payload', function (newIosPayload) {
+    $scope.$watch('ios.payload', function(newIosPayload) {
       try {
         var payload = JSON.parse(newIosPayload);
         $scope.ios.badge = payload.badge;
@@ -102,7 +102,7 @@ angular.module('nodePushserverWebApp')
     });
 
     // Synchronize from inputs to textarea (payload) for WP
-    $scope.$watchGroup(['wp.bold', 'wp.normal'], function (newValues) {
+    $scope.$watchGroup(['wp.bold', 'wp.normal'], function(newValues) {
       var bold = newValues[0];
       var normal = newValues[1];
 
@@ -122,7 +122,7 @@ angular.module('nodePushserverWebApp')
     });
 
     // Synchronize from textarea (payload) to inputs for WP
-    $scope.$watch('wp.payload', function (newWPPayload) {
+    $scope.$watch('wp.payload', function(newWPPayload) {
       try {
         var payload = JSON.parse(newWPPayload);
         $scope.wp.bold = payload.bold;
@@ -134,7 +134,7 @@ angular.module('nodePushserverWebApp')
       }
     });
 
-    $scope.push = function () {
+    $scope.push = function() {
       if ($window.confirm('Confirm push?')) {
         var payload = {};
         if ($scope.users && $scope.users.length > 0 && $scope.users.indexOf('') === -1) {
@@ -146,11 +146,11 @@ angular.module('nodePushserverWebApp')
           payload.wp = JSON.parse($scope.wp.payload);
 
           $http.post('/send', payload)
-            .success(function () {
+            .success(function() {
               var nbUsers = payload.users ? payload.users.length : 'all';
               toaster.pop('success', 'Notification sent to ' + nbUsers + ' users');
             })
-            .error(function () {
+            .error(function() {
               toaster.pop('error', 'Error while sending the notification');
             });
         } catch (e) {

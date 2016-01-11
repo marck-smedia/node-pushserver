@@ -1,7 +1,4 @@
 {
-  "globals": {
-    "require": false
-  },
   "node": true,
   "browser": true,
   "boss": false,
@@ -15,6 +12,7 @@
   "laxbreak": false,
   "newcap": true,
   "noarg": true,
+  "quotmark": "single",
   "noempty": false,
   "nonew": false,
   "nomen": false,
@@ -24,5 +22,8 @@
   "undef": true,
   "sub": true,
   "strict": false,
-  "white": true
+  "white": true,
+  "globals": {
+    "require": false
+  }
 }

@@ -15,7 +15,7 @@ angular
     'ngAnimate',
     'toaster'
   ])
-  .config(function ($routeProvider) {
+  .config(function($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/push.html',
