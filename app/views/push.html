@@ -2,7 +2,7 @@
 <label class="col-md-4 control-label" for="users">Users:</label>
 <select id="users" multiple="multiple" ng-model="users">
   <option value="">All</option>
-  <option ng-repeat="user in allUsers.users" value="{{user}}">{{user}}</option>
+  <option ng-repeat="user in ctrl.allUsers.users" value="{{user}}">{{user}}</option>
 </select>
 
 <div class="row push">
@@ -10,27 +10,27 @@
     <h2 class="android">Android</h2>
 
     <form class="form-horizontal">
-      <div class="form-group">
-        <label class="col-md-4 control-label" for="androidMessage">Message:</label>
-
-        <div class="col-md-8">
-          <input id="androidMessage" class="form-control" ng-model="android.message"
-                 ng-disabled="!android.jsonOK"/>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-md-4 control-label" for="androidCollapseKey">Collapse key:</label>
-
-        <div class="col-md-8">
-          <input id="androidCollapseKey" class="form-control" ng-model="android.collapseKey"
-                 ng-disabled="!android.jsonOK"/>
-        </div>
-      </div>
+      <device-field device="ctrl.android"
+                    model="ctrl.android.fields.data.title"
+                    label="Title">
+      </device-field>
+      <device-field device="ctrl.android"
+                    model="ctrl.android.fields.data.message"
+                    label="Message">
+      </device-field>
+      <device-field device="ctrl.android"
+                    model="ctrl.android.fields.collapseKey"
+                    label="Collapse key">
+      </device-field>
       <div class="form-group">
         <label class="col-md-4 control-label" for="androidPayload">Payload:</label>
 
         <div class="col-md-12">
-          <textarea id="androidPayload" class="form-control" ng-model="android.payload" rows="10"></textarea>
+          <textarea id="androidPayload"
+                    class="form-control"
+                    ng-model="ctrl.android.payload"
+                    rows="10">
+          </textarea>
         </div>
       </div>
     </form>
@@ -40,34 +40,29 @@
     <h2 class="ios">iOS</h2>
 
     <form class="form-horizontal">
-      <div class="form-group">
-        <label class="col-md-4 control-label" for="iosBadge">Badge:</label>
-
-        <div class="col-md-8">
-          <input id="iosBadge" class="form-control" ng-model="ios.badge" type="number"
-                 ng-disabled="!ios.jsonOK"/>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-md-4 control-label" for="iosAlert">Alert:</label>
-
-        <div class="col-md-8">
-          <input id="iosAlert" class="form-control" ng-model="ios.alert" ng-disabled="!ios.jsonOK"/>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-md-4 control-label" for="iosSound">Sound:</label>
-
-        <div class="col-md-8">
-          <input id="iosSound" class="form-control" ng-model="ios.sound" ng-disabled="!ios.jsonOK"/>
-        </div>
-      </div>
+      <device-field device="ctrl.ios"
+                    model="ctrl.ios.fields.badge"
+                    label="Badge"
+                    type="number">
+      </device-field>
+      <device-field device="ctrl.ios"
+                    model="ctrl.ios.fields.alert"
+                    label="Alert">
+      </device-field>
+      <device-field device="ctrl.ios"
+                    model="ctrl.ios.fields.sound"
+                    label="Sound">
+      </device-field>
       <div class="form-group">
         <label class="col-md-4 control-label" for="iosPayload">Payload:</label>
 
         <div class="col-md-12">
-                    <textarea id="iosPayload" class="form-control" ng-model="ios.payload" rows="10"
-                              cols="30"></textarea>
+          <textarea id="iosPayload"
+                    class="form-control"
+                    ng-model="ctrl.ios.payload"
+                    rows="10"
+                    cols="30">
+          </textarea>
         </div>
       </div>
     </form>
@@ -77,29 +72,31 @@
     <h2 class="wp">Windows Phone</h2>
 
     <form class="form-horizontal">
-      <div class="form-group">
-        <label class="col-md-4 control-label" for="wpBold">Bold:</label>
-
-        <div class="col-md-8">
-          <input id="wpBold" class="form-control" ng-model="wp.bold" ng-disabled="!wp.jsonOK"/>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-md-4 control-label" for="wpNormal">Normal:</label>
-
-        <div class="col-md-8">
-          <input id="wpNormal" class="form-control" ng-model="wp.normal" ng-disabled="!wp.jsonOK"/>
-        </div>
-      </div>
+      <device-field device="ctrl.wp"
+                    model="ctrl.wp.fields.bold"
+                    label="Bold">
+      </device-field>
+      <device-field device="ctrl.wp"
+                    model="ctrl.wp.fields.normal"
+                    label="Normal">
+      </device-field>
       <div class="form-group">
         <label class="col-md-4 control-label" for="wpPayload">Payload:</label>
 
         <div class="col-md-12">
-                      <textarea id="wpPayload" class="form-control" ng-model="wp.payload" rows="10"
-                                cols="30"></textarea>
+          <textarea id="wpPayload"
+                    class="form-control"
+                    ng-model="ctrl.wp.payload"
+                    rows="10"
+                    cols="30">
+          </textarea>
         </div>
       </div>
     </form>
   </div>
-  <button class="btn btn-danger col-md-12" ng-click="push()" ng-disabled="!android.jsonOK || !ios.jsonOK || !wp.jsonOK">Send!</button>
+  <button class="btn btn-danger col-md-12"
+          ng-click="ctrl.push()"
+          ng-disabled="!ctrl.android.jsonOK || !ctrl.ios.jsonOK || !ctrl.wp.jsonOK">
+    Send!
+  </button>
 </div>

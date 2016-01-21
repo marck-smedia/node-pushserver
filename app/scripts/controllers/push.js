@@ -9,141 +9,90 @@
  */
 angular.module('nodePushserverWebApp')
   .controller('PushCtrl', function($scope, $window, $http, $resource, toaster) {
-    $scope.allUsers = $resource('/users').get();
+    var ctrl = this;
 
-    $scope.android = {
-      'message': 'Your message'
-    };
-    $scope.ios = {
-      'badge': 0,
-      'alert': 'Your message',
-      'sound': 'default'
-    };
-    $scope.wp = {
-      'bold': 'Title',
-      'normal': 'Your message'
-    };
+    ctrl.allUsers = $resource('/users').get();
 
-    // Synchronize from inputs to textarea (payload) for Android
-    $scope.$watchGroup(['android.message', 'android.collapseKey'], function(newValues) {
-      var message = newValues[0];
-      var collapseKey = newValues[1];
-
-      var payload = {};
-      try {
-        if ($scope.android.payload) {
-          payload = JSON.parse($scope.android.payload);
+    ctrl.android = {
+      fields: {
+        data: {
+          title: 'Title',
+          message: 'Your message'
         }
-      } catch (e) {
-        toaster.pop('error', 'Payload JSON parse error', 'Some custom fields may have been lost...');
       }
-
-      if (!payload.data) {
-        payload.data = {};
+    };
+    ctrl.ios = {
+      fields: {
+        'badge': 0,
+        'alert': 'Your message',
+        'sound': 'default'
       }
-      payload.data.message = message;
-
-      if (collapseKey) {
-        payload.collapseKey = collapseKey;
-      } else {
-        delete payload.collapseKey;
+    };
+    ctrl.wp = {
+      fields: {
+        'bold': 'Title',
+        'normal': 'Your message'
       }
+    };
 
-      $scope.android.payload = JSON.stringify(payload, null, 2);
-    });
-
-    // Synchronize from textarea (payload) to inputs for Android
-    $scope.$watch('android.payload', function(newAndroidPayload) {
-      try {
-        var payload = JSON.parse(newAndroidPayload);
-        $scope.android.message = payload.data.message;
-        $scope.android.collapseKey = payload.collapseKey;
-        $scope.android.jsonOK = true;
-      } catch (e) {
-        // The user hasn't finished to edit the payload (at least we expect!)
-        $scope.android.jsonOK = false;
-      }
-    });
-
-    // Synchronize from inputs to textarea (payload) for iOS
-    $scope.$watchGroup(['ios.badge', 'ios.alert', 'ios.sound'], function(newValues) {
-      var badge = parseInt(newValues[0]);
-      var alert = newValues[1];
-      var sound = newValues[2];
-
-      var payload = {};
-      try {
-        if ($scope.ios.payload) {
-          payload = JSON.parse($scope.ios.payload);
+    /**
+     * Synchronize from inputs to textarea (payload)
+     * @param {Object} device - DTO corresponding to the device
+     * @return {Function} Function that handles fields update (it refreshes the payload by taking inputs modifications)
+     */
+    var fieldsUpdateHandler = function(device) {
+      return function(newValues) {
+        var payload = {};
+        try {
+          if (device.payload) {
+            payload = JSON.parse(device.payload);
+          }
+        } catch (e) {
+          toaster.pop('error', 'Payload JSON parse error', 'Some custom fields may have been lost...');
         }
-      } catch (e) {
-        toaster.pop('error', 'Payload JSON parse error', 'Some custom fields may have been lost...');
-      }
 
-      payload.badge = badge;
-      payload.alert = alert;
-      payload.sound = sound;
+        angular.merge(payload, newValues);
 
-      $scope.ios.payload = JSON.stringify(payload, null, 2);
-    });
+        device.payload = JSON.stringify(payload, null, 2);
+      };
+    };
 
-    // Synchronize from textarea (payload) to inputs for iOS
-    $scope.$watch('ios.payload', function(newIosPayload) {
-      try {
-        var payload = JSON.parse(newIosPayload);
-        $scope.ios.badge = payload.badge;
-        $scope.ios.alert = payload.alert;
-        $scope.ios.sound = payload.sound;
-        $scope.ios.jsonOK = true;
-      } catch (e) {
-        // The user hasn't finished to edit the payload (at least we expect!)
-        $scope.ios.jsonOK = false;
-      }
-    });
-
-    // Synchronize from inputs to textarea (payload) for WP
-    $scope.$watchGroup(['wp.bold', 'wp.normal'], function(newValues) {
-      var bold = newValues[0];
-      var normal = newValues[1];
-
-      var payload = {};
-      try {
-        if ($scope.wp.payload) {
-          payload = JSON.parse($scope.wp.payload);
+    /**
+     * Synchronize from textarea (payload) to inputs
+     * @param device - DTO corresponding to the device
+     * @return {Function} Function that handles payload update (it refreshes fields)
+     */
+    var payloadUpdateHandler = function(device) {
+      return function(newPayload) {
+        try {
+          device.fields = JSON.parse(newPayload);
+          device.jsonOK = true;
+        } catch (e) {
+          // The user hasn't finished to edit the payload (at least we expect!)
+          device.jsonOK = false;
         }
-      } catch (e) {
-        toaster.pop('error', 'Payload JSON parse error', 'Some custom fields may have been lost...');
-      }
+      };
+    };
 
-      payload.bold = bold;
-      payload.normal = normal;
+    $scope.$watch('ctrl.android.fields', fieldsUpdateHandler(ctrl.android), true);
+    $scope.$watch('ctrl.android.payload', payloadUpdateHandler(ctrl.android));
 
-      $scope.wp.payload = JSON.stringify(payload, null, 2);
-    });
+    $scope.$watch('ctrl.ios.fields', fieldsUpdateHandler(ctrl.ios), true);
+    $scope.$watch('ctrl.ios.payload', payloadUpdateHandler(ctrl.ios));
 
-    // Synchronize from textarea (payload) to inputs for WP
-    $scope.$watch('wp.payload', function(newWPPayload) {
-      try {
-        var payload = JSON.parse(newWPPayload);
-        $scope.wp.bold = payload.bold;
-        $scope.wp.normal = payload.normal;
-        $scope.wp.jsonOK = true;
-      } catch (e) {
-        // The user hasn't finished to edit the payload (at least we expect!)
-        $scope.wp.jsonOK = false;
-      }
-    });
+    $scope.$watch('ctrl.wp.fields', fieldsUpdateHandler(ctrl.wp), true);
+    $scope.$watch('ctrl.wp.payload', payloadUpdateHandler(ctrl.wp));
 
-    $scope.push = function() {
+    ctrl.push = function() {
       if ($window.confirm('Confirm push?')) {
         var payload = {};
-        if ($scope.users && $scope.users.length > 0 && $scope.users.indexOf('') === -1) {
-          payload.users = $scope.users;
+        if (ctrl.users && ctrl.users.length > 0 && ctrl.users.indexOf('') === -1) {
+          payload.users = ctrl.users;
         }
         try {
-          payload.android = JSON.parse($scope.android.payload);
-          payload.ios = JSON.parse($scope.ios.payload);
-          payload.wp = JSON.parse($scope.wp.payload);
+          payload.android = JSON.parse(ctrl.android.payload);
+          payload.ios = JSON.parse(ctrl.ios.payload);
+          payload.wp = JSON.parse(ctrl.wp.payload);
 
           $http.post('/send', payload)
             .success(function() {

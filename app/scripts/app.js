@@ -19,7 +19,8 @@ angular
     $routeProvider
       .when('/', {
         templateUrl: 'views/push.html',
-        controller: 'PushCtrl'
+        controller: 'PushCtrl',
+        controllerAs: 'ctrl'
       })
       .when('/users', {
         templateUrl: 'views/users.html',

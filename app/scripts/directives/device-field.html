@@ -1,0 +1,14 @@
+<div class="form-group">
+  <label class="col-md-4 control-label"
+         for="{{ctrl.fieldName}}">
+    {{ctrl.label}}:
+  </label>
+
+  <div class="col-md-8">
+    <input id="{{ctrl.fieldName}}"
+           class="form-control col-md-8"
+           ng-model="ctrl.model"
+           ng-disabled="!ctrl.device.jsonOK"
+           type="{{ctrl.type || 'text'}}" />
+  </div>
+</div>
