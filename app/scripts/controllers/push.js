@@ -36,6 +36,20 @@ angular.module('nodePushserverWebApp')
     };
 
     /**
+     * Recursively delete empty properties of an object
+     * @param {Object} object - object
+     */
+    var deleteEmptyProperties = function(object) {
+      for (var i in object) {
+        if (object[i] === null || object[i] === '') {
+          delete object[i];
+        } else if (typeof object[i] === 'object') {
+          deleteEmptyProperties(object[i]);
+        }
+      }
+    };
+
+    /**
      * Synchronize from inputs to textarea (payload)
      * @param {Object} device - DTO corresponding to the device
      * @return {Function} Function that handles fields update (it refreshes the payload by taking inputs modifications)
@@ -52,6 +66,7 @@ angular.module('nodePushserverWebApp')
         }
 
         angular.merge(payload, newValues);
+        deleteEmptyProperties(payload, true);
 
         device.payload = JSON.stringify(payload, null, 2);
       };
