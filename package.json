@@ -59,7 +59,6 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "prepublish": "bower install && grunt",
     "start": "node ./bin/pushserver.js",
     "test": "grunt test"
   },
