@@ -6,20 +6,18 @@ describe('Controller: PushCtrl', function() {
   beforeEach(module('nodePushserverWebApp'));
 
   var PushCtrl;
-  var scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function($controller, $rootScope) {
-    scope = $rootScope.$new();
     PushCtrl = $controller('PushCtrl', {
-      $scope: scope
+      $scope: $rootScope.$new()
     });
   }));
 
   it('should init android and ios payloads', function() {
-    expect(scope.android.message).toBe('Your message');
-    expect(scope.ios.badge).toBe(0);
-    expect(scope.ios.alert).toBe('Your message');
-    expect(scope.ios.sound).toBe('default');
+    expect(PushCtrl.android.fields.data.message).toBe('Your message');
+    expect(PushCtrl.ios.fields.badge).toBe(0);
+    expect(PushCtrl.ios.fields.alert).toBe('Your message');
+    expect(PushCtrl.ios.fields.sound).toBe('default');
   });
 });
