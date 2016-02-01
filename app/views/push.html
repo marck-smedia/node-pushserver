@@ -1,6 +1,6 @@
 <h2>Recipient(s):</h2>
 <label class="col-md-4 control-label" for="users">Users:</label>
-<select id="users" multiple="multiple" ng-model="users">
+<select id="users" multiple="multiple" ng-model="ctrl.users">
   <option value="">All</option>
   <option ng-repeat="user in ctrl.allUsers.users" value="{{user}}">{{user}}</option>
 </select>
