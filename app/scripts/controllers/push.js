@@ -11,7 +11,7 @@ angular.module('nodePushserverWebApp')
   .controller('PushCtrl', function($scope, $window, $http, $resource, toaster) {
     var ctrl = this;
 
-    ctrl.allUsers = $resource('/users').get();
+    ctrl.allUsers = $resource('users').get();
 
     ctrl.android = {
       fields: {
@@ -109,7 +109,7 @@ angular.module('nodePushserverWebApp')
           payload.ios = JSON.parse(ctrl.ios.payload);
           payload.wp = JSON.parse(ctrl.wp.payload);
 
-          $http.post('/send', payload)
+          $http.post('send', payload)
             .success(function() {
               var nbUsers = payload.users ? payload.users.length : 'all';
               toaster.pop('success', 'Notification sent to ' + nbUsers + ' users');

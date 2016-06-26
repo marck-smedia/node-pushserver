@@ -9,5 +9,5 @@
  */
 angular.module('nodePushserverWebApp')
   .controller('LogsCtrl', function($scope, $resource) {
-    $scope.logs = $resource('/logs').get();
+    $scope.logs = $resource('logs').get();
   });

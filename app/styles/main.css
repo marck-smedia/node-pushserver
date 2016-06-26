@@ -7,15 +7,15 @@ h2.wp {
 }
 
 h2.android {
-  background-image: url('/images/android.svg');
+  background-image: url('../images/android.svg');
 }
 
 h2.ios {
-  background-image: url('/images/ios.svg');
+  background-image: url('../images/ios.svg');
 }
 
 h2.wp {
-  background-image: url('/images/wp.svg');
+  background-image: url('../images/wp.svg');
 }
 
 ul.users {
@@ -36,15 +36,15 @@ li.user span.user {
 }
 
 li.user.ios span.user {
-  background-image: url('/images/ios.svg');
+  background-image: url('../images/ios.svg');
 }
 
 li.user.android span.user {
-  background-image: url('/images/android.svg');
+  background-image: url('../images/android.svg');
 }
 
 li.user.wp span.user {
-  background-image: url('/images/wp.svg');
+  background-image: url('../images/wp.svg');
 }
 
 li.user span.token {

@@ -10,7 +10,7 @@
 angular.module('nodePushserverWebApp')
   .controller('UsersCtrl', function($scope, $window, $http, toaster, $routeParams) {
     var refreshUsers = function() {
-      $http.get('/usersComplete').success(function(users) {
+      $http.get('usersComplete').success(function(users) {
         $scope.users = users;
       });
     };
@@ -23,7 +23,7 @@ angular.module('nodePushserverWebApp')
     };
 
     $scope.addUser = function() {
-      $http.post('/subscribe', $scope.add)
+      $http.post('subscribe', $scope.add)
         .success(function() {
           toaster.pop('success', 'User "' + $scope.add.user + '" registered');
           $scope.add = {};
@@ -37,7 +37,7 @@ angular.module('nodePushserverWebApp')
     $scope.deleteUser = function() {
       var user = this.user;
       if ($window.confirm('Confirm "' + user.user + '" deletion?')) {
-        $http.post('/unsubscribe', {'token': user.token, 'user': user.user})
+        $http.post('unsubscribe', {'token': user.token, 'user': user.user})
           .success(function() {
             toaster.pop('success', 'User "' + user.user + '" deleted');
             refreshUsers();
