@@ -1,4 +1,5 @@
 # Push Server
+[![Build Status](https://travis-ci.org/marob/node-pushserver.svg?branch=master)](https://travis-ci.org/marob/node-pushserver)
 
 Push Server is a cross-platform push server based on [node-apn](https://github.com/argon/node-apn) and [node-gcm](https://github.com/ToothlessGear/node-gcm).
 Push Server currently supports iOS (APN) and android (GCM) platforms. It uses sqlite to store the push tokens. 
